@@ -291,3 +291,13 @@ consoleinit(void)
   ioapicenable(IRQ_KBD, 0);
 }
 
+void
+consoleclear(void)
+{
+  memset(crt, 0, 0x1000);
+  outb(CRTPORT, 14);
+  outb(CRTPORT+1, 0);
+  outb(CRTPORT, 15);
+  outb(CRTPORT+1, 0);
+}
+
