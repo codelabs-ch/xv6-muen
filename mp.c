@@ -104,6 +104,11 @@ mpinit(void)
   struct mpconf *conf;
   struct mpproc *proc;
   struct mpioapic *ioapic;
+  ismp = 0;
+  ncpu = 1;
+  lapic = 0;
+  ioapicid = 0;
+  return;
 
   bcpu = &cpus[0];
   if((conf = mpconfig(&mp)) == 0)
