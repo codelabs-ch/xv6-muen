@@ -2,6 +2,13 @@
 #include "x86.h"
 #include "defs.h"
 #include "kbd.h"
+#include "memlayout.h"
+
+struct kbd_driver {
+  char scancode;
+};
+
+volatile struct kbd_driver * const kbd = (struct kbd_driver *)P2V(0x90000);
 
 int
 kbdgetc(void)
@@ -10,12 +17,13 @@ kbdgetc(void)
   static uchar *charcode[4] = {
     normalmap, shiftmap, ctlmap, ctlmap
   };
-  uint st, data, c;
+  uint data = 0, c;
 
-  st = inb(KBSTATP);
-  if((st & KBS_DIB) == 0)
+  data = kbd->scancode;
+  if(data == 0)
     return -1;
-  data = inb(KBDATAP);
+
+  kbd->scancode = 0;
 
   if(data == 0xE0){
     shift |= E0ESC;
