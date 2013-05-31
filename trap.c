@@ -7,6 +7,7 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
+#include "crypto.h"
 
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
@@ -69,6 +70,12 @@ trap(struct trapframe *tf)
     break;
   case T_IRQ0 + IRQ_COM1:
     uartintr();
+    lapiceoi();
+    break;
+  case T_IRQ0 + IRQ_CRYPTER:
+    acquire(&crypter_lock);
+    wakeup(&crypter_signal);
+    release(&crypter_lock);
     lapiceoi();
     break;
   case T_IRQ0 + 7:

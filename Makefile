@@ -1,6 +1,7 @@
 OBJS = \
 	bio.o\
 	console.o\
+	crypto.o\
 	exec.o\
 	file.o\
 	fs.o\
@@ -19,6 +20,7 @@ OBJS = \
 	string.o\
 	swtch.o\
 	syscall.o\
+	syscrypt.o\
 	sysfile.o\
 	sysproc.o\
 	timer.o\
@@ -159,6 +161,7 @@ UPROGS=\
 	_echo\
 	_forktest\
 	_grep\
+	_hash\
 	_init\
 	_kill\
 	_ln\
