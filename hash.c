@@ -4,10 +4,10 @@
 int
 main(int argc, char *argv[])
 {
-  int n, size, fd;
+  static const char hex_chars[] = "0123456789abcdef";
+  int i, n, size, fd;
   char h[32];
   char buffer[2048];
-
   if(argc != 2){
     printf(2, "usage: %s [file]\n", argv[0]);
     exit();
@@ -28,6 +28,11 @@ main(int argc, char *argv[])
     exit();
   }
 
-  printf(1, "%s\n", h);
+  for(i = 0; i < 32; ++i){
+    printf (1, "%c", hex_chars[0xf & h[i] >> 4]);
+    printf (1, "%c", hex_chars[0xf & h[i]]);
+  }
+  printf(1, " - %s\n", argv[1]);
+
   exit();
 }
